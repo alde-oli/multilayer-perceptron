@@ -6,7 +6,7 @@ from Initializer import Initializer
 
 
 class Layer:
-	def _forward(self, input):
+	def _forward(self, input, train=True):
 		raise NotImplementedError("this must be implemented")
 	
 	def _backward(self, grads, learning_rate):
@@ -19,15 +19,14 @@ class Input(Layer):
 		super().__init__()
 		self.in_shape = in_shape
 	
-	def _forward(self, input):
+	def _forward(self, input, train=True):
 		if not isinstance(input, np.ndarray):
 			raise TypeError("input must be a numpy array")
 		if input.shape != (self.in_shape,):
 			raise ValueError(f"input shape must be {self.in_shape}")
 		return input
 	
-	def _backward(self, grads):
-		# to implement
+	def _backward(self, grads, learning_rate):
 		pass
 # Input
 
@@ -47,12 +46,11 @@ class Dense(Layer):
 			1, out_shape
 		)
 	
-	def _forward(self, input):
+	def _forward(self, input, train=True):
 		self.input = input
 		return self.activation(np.dot(input, self.weights) + self.biases)
 	
 	def _backward(self):
-		# to implement
 		pass
 # Dense
 
